@@ -11,17 +11,20 @@ public class Court extends Applet implements Runnable, KeyListener{
 	private int W = 1000, H = 900;
 	Thread thread;
 	mypaddle p1;
+	Ball b1;
 	public void init() {
 		this.resize(W,H);
 		p1 = new mypaddle(1);
 		this.addKeyListener(this);
 		thread = new Thread(this);
 		thread.start();
+		b1 = new Ball();
 	}
 	public void paint(Graphics g) {
 		g.setColor(Color.black);
 		g.fillRect(0, 0, W, H);
 		p1.draw(g);
+		b1.draw(g);
 		
 	}
 	public void update(Graphics g) {
@@ -30,7 +33,7 @@ public class Court extends Applet implements Runnable, KeyListener{
 	public void run() {
 		for (;;) {
 			p1.move();
-			
+			b1.move();
 			repaint();
 			try {
 				Thread.sleep(10);

@@ -8,7 +8,7 @@ import java.awt.Color;
 
 
 public class Court extends Applet implements Runnable, KeyListener{
-	private int W = 1000, H = 1000;
+	private int W = 1000, H = 900;
 	Thread thread;
 	mypaddle p1;
 	public void init() {
@@ -66,14 +66,7 @@ public class Court extends Applet implements Runnable, KeyListener{
 		
 	}
 	
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getKeyCode () == KeyEvent.VK_UP) {
-			
-		}
-		else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-		}
-		
+	
 		
 	}
-}
+

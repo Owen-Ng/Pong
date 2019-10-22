@@ -23,8 +23,15 @@ public class Court extends Applet implements Runnable, KeyListener{
 	public void paint(Graphics g) {
 		g.setColor(Color.black);
 		g.fillRect(0, 0, W, H);
-		p1.draw(g);
-		b1.draw(g);
+		if (b1.GetX() < 0 || b1.GetX() > 1000) {
+			g.setColor(Color.RED);
+			g.drawString("Game Over", 500, 450);
+		}
+		else {
+			
+			p1.draw(g);
+			b1.draw(g);
+		}
 		
 	}
 	public void update(Graphics g) {
@@ -34,6 +41,7 @@ public class Court extends Applet implements Runnable, KeyListener{
 		for (;;) {
 			p1.move();
 			b1.move();
+			b1.ballcollision(p1, p1);
 			repaint();
 			try {
 				Thread.sleep(10);

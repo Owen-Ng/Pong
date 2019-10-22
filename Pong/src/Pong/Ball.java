@@ -6,7 +6,7 @@ public class Ball {
 	public Ball() {
 		x = 450;
 		y = 500;
-		xvel = 1;
+		xvel = -1;
 		yvel = -1;
 	}
 	public void move() {
@@ -20,7 +20,19 @@ public class Ball {
 		}
 		
 	}
-	
+	public void ballcollision(mypaddle p1, mypaddle p2) {
+		if (x <= 40) {
+			if (y >= p1.getY() && y <= p1.getY() + 80) {
+				xvel = -xvel;
+			}
+		}
+		if (x >= 540) {
+			if (y >= p2.getY() && y <= p2.getY() + 80) {
+				xvel = -xvel;
+			}
+		}
+		
+	}
 	public int GetX() {
 		return (int)x;
 	}

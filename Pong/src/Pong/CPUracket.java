@@ -3,20 +3,21 @@ package Pong;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class mypaddle implements racket{
+public class CPUracket implements racket{
 	double y, yvel;
 	boolean upAccel, downAccel;
 	int player, x;
 	final double gravity = 0.5;
-	
-	public mypaddle (int player) {
+	Ball b;
+	public CPUracket (int player, Ball b) {
 		upAccel = false;
 		downAccel = false;
+		this.b = b;
 		y = 210; yvel = 0;
 		if (player == 1)
 			x = 20;
 		else
-			x = 540;
+			x = 940;
 	}
 
 	
@@ -30,16 +31,8 @@ public class mypaddle implements racket{
 	
 	public void move() {
 		// TODO Auto-generated method stub
-		if (upAccel) {
-			yvel -= 1;
-		}
-		else if (downAccel) {
-			yvel += 1;
-		}
-		else if (!upAccel && !downAccel) {
-			yvel *= gravity;
-		}
-		y += yvel;
+		
+		y = b.GetY();
 		if (y< 50) {
 			y = 50;
 		
@@ -47,21 +40,9 @@ public class mypaddle implements racket{
 		else if (y>800) {
 		y = 800;
 	}
-		if (yvel >4) {
-			yvel = 4;
-		}
-		else if (yvel <-4) {
-			yvel = -4;
-		}
+
 	}
-		
-	
-	public void setupAccel(boolean input) {
-		upAccel = input;
-	}
-	public void setdownAccel(boolean input) {
-		downAccel = input;
-	}
+
 	
 	public int getY() {
 		// TODO Auto-generated method stub

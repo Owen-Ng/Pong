@@ -10,8 +10,8 @@ public class Ball {
 		yvel = -1;
 	}
 	public void move() {
-		x += xvel;
-		y += yvel;
+		x += 2*xvel;
+		y += 2*yvel;
 		if (y< 50) {
 			yvel = -yvel;
 		}
@@ -20,13 +20,13 @@ public class Ball {
 		}
 		
 	}
-	public void ballcollision(mypaddle p1, mypaddle p2) {
+	public void ballcollision(racket p1, racket p2) {
 		if (x <= 40) {
 			if (y >= p1.getY() && y <= p1.getY() + 80) {
 				xvel = -xvel;
 			}
 		}
-		if (x >= 540) {
+		if (x >= 940) {
 			if (y >= p2.getY() && y <= p2.getY() + 80) {
 				xvel = -xvel;
 			}

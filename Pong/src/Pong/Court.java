@@ -10,15 +10,20 @@ import java.awt.Color;
 public class Court extends Applet implements Runnable, KeyListener{
 	private int W = 1000, H = 900;
 	Thread thread;
-	mypaddle p1;
+	myracket p1;
+	CPUracket p2;
 	Ball b1;
+	boolean gamestarted;
 	public void init() {
 		this.resize(W,H);
-		p1 = new mypaddle(1);
 		this.addKeyListener(this);
+		b1 = new Ball();
+		p1 = new myracket(1);
+		p2 = new CPUracket(2, b1);
+		
 		thread = new Thread(this);
 		thread.start();
-		b1 = new Ball();
+		
 	}
 	public void paint(Graphics g) {
 		g.setColor(Color.black);
@@ -27,10 +32,16 @@ public class Court extends Applet implements Runnable, KeyListener{
 			g.setColor(Color.RED);
 			g.drawString("Game Over", 500, 450);
 		}
+		else if (!gamestarted) {
+			g.setColor(Color.BLUE);
+			g.drawString("Press ENTER to play with AI or Press x for 1v1", 500, 450);
+			
+		}
 		else {
 			
 			p1.draw(g);
 			b1.draw(g);
+			p2.draw(g);
 		}
 		
 	}
@@ -39,10 +50,13 @@ public class Court extends Applet implements Runnable, KeyListener{
 	}
 	public void run() {
 		for (;;) {
+			if (gamestarted) {
 			p1.move();
+			p2.move();
 			b1.move();
-			b1.ballcollision(p1, p1);
+			b1.ballcollision(p1, p2);
 			repaint();
+			}
 			try {
 				Thread.sleep(10);
 			}
@@ -62,6 +76,9 @@ public class Court extends Applet implements Runnable, KeyListener{
 		else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			p1.setdownAccel(true);
 		}
+		else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			gamestarted = true;
+		}
 		
 	}
 	
@@ -74,6 +91,11 @@ public class Court extends Applet implements Runnable, KeyListener{
 			p1.setdownAccel(false);
 		}
 		
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
 		
 	}
 	

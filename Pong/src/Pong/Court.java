@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.Color;
+import java.awt.Font;
 
 
 public class Court extends Applet implements Runnable, KeyListener{
@@ -13,14 +14,16 @@ public class Court extends Applet implements Runnable, KeyListener{
 	myracket p1;
 	CPUracket p2;
 	Ball b1;
+	Player2 h2;
 	boolean gamestarted;
+	boolean onev1;
 	public void init() {
 		this.resize(W,H);
 		this.addKeyListener(this);
 		b1 = new Ball();
 		p1 = new myracket(1);
 		p2 = new CPUracket(2, b1);
-		
+		h2 = new Player2(2);
 		thread = new Thread(this);
 		thread.start();
 		
@@ -34,14 +37,26 @@ public class Court extends Applet implements Runnable, KeyListener{
 		}
 		else if (!gamestarted) {
 			g.setColor(Color.BLUE);
-			g.drawString("Press ENTER to play with AI or Press x for 1v1", 500, 450);
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 30)); 
+			g.drawString("Press ENTER to play with AI", 260, 470);
 			
+			g.setColor(Color.RED);
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 35)); 
+			g.drawString("Press x for 1v1", 285, 520);
+		
 		}
 		else {
-			
+			if (!onev1) {
 			p1.draw(g);
 			b1.draw(g);
 			p2.draw(g);
+			
+			}
+			else {
+				p1.draw(g);
+				b1.draw(g);
+				h2.draw(g);
+			}
 		}
 		
 	}
@@ -51,11 +66,20 @@ public class Court extends Applet implements Runnable, KeyListener{
 	public void run() {
 		for (;;) {
 			if (gamestarted) {
+				if(onev1) {
+					p1.move();
+					h2.move();
+					b1.move();
+					b1.ballcollision(p1, h2);
+					repaint();
+				}
+				else {
 			p1.move();
 			p2.move();
 			b1.move();
 			b1.ballcollision(p1, p2);
 			repaint();
+				}
 			}
 			try {
 				Thread.sleep(10);
@@ -69,15 +93,26 @@ public class Court extends Applet implements Runnable, KeyListener{
 	
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+	
 		if (e.getKeyCode () == KeyEvent.VK_UP) {
 			p1.setupAccel(true);
 			
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_W) {
+			h2.setupAccel(true);
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_S) {
+			h2.setdownAccel(true);
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			p1.setdownAccel(true);
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			gamestarted = true;
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_X) {
+			gamestarted = true;
+			onev1 = true;
 		}
 		
 	}
@@ -87,6 +122,14 @@ public class Court extends Applet implements Runnable, KeyListener{
 			p1.setupAccel(false);
 			
 		}
+		else if (e.getKeyCode () == KeyEvent.VK_W) {
+			h2.setupAccel(false);
+			
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_S) {
+			h2.setdownAccel(false);
+		}
+		
 		else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			p1.setdownAccel(false);
 		}

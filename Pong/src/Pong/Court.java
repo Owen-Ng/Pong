@@ -4,17 +4,20 @@ import java.applet.*;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import javax.swing.JApplet;
+
 import java.awt.Color;
 import java.awt.Font;
 
 
 public class Court extends Applet implements Runnable, KeyListener{
-	private int W = 1000, H = 900;
+	private int W = 1000, H = 1000;
 	Thread thread;
 	myracket p1;
 	CPUracket p2;
 	Ball b1;
-	Player2 h2;
+	myracket h2;
 	boolean gamestarted;
 	boolean onev1;
 	public void init() {
@@ -23,7 +26,7 @@ public class Court extends Applet implements Runnable, KeyListener{
 		b1 = new Ball();
 		p1 = new myracket(1);
 		p2 = new CPUracket(2, b1);
-		h2 = new Player2(2);
+		h2 = new myracket(2);
 		thread = new Thread(this);
 		thread.start();
 		
@@ -46,11 +49,17 @@ public class Court extends Applet implements Runnable, KeyListener{
 		
 		}
 		else {
+			g.setColor(Color.WHITE);
+			g.drawLine(0, 900, 1000,900 );
+			g.drawLine(0, 100, 1000, 100);
+			g.drawLine(W/2, 0, W/2, 1000);
 			if (!onev1) {
-			p1.draw(g);
-			b1.draw(g);
-			p2.draw(g);
 			
+				
+				p1.draw(g);
+				b1.draw(g);
+				p2.draw(g);
+				
 			}
 			else {
 				p1.draw(g);
@@ -64,7 +73,7 @@ public class Court extends Applet implements Runnable, KeyListener{
 		paint(g);
 	}
 	public void run() {
-		for (;;) {
+		while (true) {
 			if (gamestarted) {
 				if(onev1) {
 					p1.move();
